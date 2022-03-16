@@ -1,3 +1,12 @@
+
+
+import pygame, sys
+from pygame.locals import *
+
+from Vector import *
+from Window import *
+import math
+
 #A particle in the window space with mass, charge, color. Particles move around
 #the space, being acted on by forces, and collide with each other.
 class Particle():
@@ -8,7 +17,7 @@ class Particle():
         self.r = r
         self.q = q
         self.m = 4 * D * math.pi * (r ** 3) / 3
-        self.d = Point(x, y, window)
+        self.d = Vec(x, y)
         self.v = Vec(vx, vy)
         self.a = Vec(0, 0)
 
@@ -48,14 +57,14 @@ class Particle():
         self.v += u * ka
         other.v += u * -kb
         while self.distance(other) <= self.r + other.r:
-            self.d.move(self.v)
-            other.d.move(other.v)
+            self.d = self.d + self.v
+            other.d = other.d + other.v
      
     #Update the particle by adding its acceleration to its velocity, moving its position by its velocity, keeping it within the window's
     #boundaries, and setting its acceleration to zero.
     def update(self):
         self.v += self.a
-        self.d.move(self.v)
+        self.d = self.d + self.v
         self.boundaries()
         self.a = Vec(0, 0)
 
@@ -63,4 +72,4 @@ class Particle():
         pygame.draw.circle(self.window.surface, self.color,
                         (round(self.d.x * self.window.zoom - self.window.x),
                         round(self.d.y * self.window.zoom - self.window.y)),
-                        round(self.r * window.zoom))
+                        round(self.r * self.window.zoom))

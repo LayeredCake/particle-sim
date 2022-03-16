@@ -1,4 +1,4 @@
-
+import math
 
 #A two-dimensional vector
 class Vec():
@@ -57,5 +57,13 @@ class Vec():
             return math.acos(s)
         else:
             return 0
-            
+     
+    #Return the distance between to vectors
+    def distance(self, other):
+        return self.displacement(other).length()
+        
+    #return a vector representing the shortest path from self to other.
+    def displacement(self, other):
+        return Vec(other.x - self.x, other.y - self.y)
+
             
