@@ -1,4 +1,4 @@
-
+#A system of particles, which controls the generation, and mechanics of particles
 class System():
 
     def __init__(self, window, n, vrange=(0, 0.5),
@@ -20,6 +20,7 @@ class System():
         for i in range(n):
             self.new()
 
+    #Detect collisions between particles, apply forces to particles, and call their update function.
     def update(self):
         self.findCollisions()
         for particle in self.particles:
@@ -27,6 +28,7 @@ class System():
                 particle.applyForce(force(particle))
             particle.update()
             
+    #Find collisions between any particles in the system
     def findCollisions(self):
         pairs = []
         for particle1 in self.particles:
@@ -40,6 +42,7 @@ class System():
         for particle in self.particles:
             particle.draw()
 
+    #Generate a new particle using the system's ranges
     def newParticle(self):
         r = random.uniform(*self.rrange)
         D = random.uniform(*self.Drange)
