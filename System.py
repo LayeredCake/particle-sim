@@ -40,7 +40,7 @@ class System():
         for particle in self.particles:
             particle.draw()
 
-    def new(self):
+    def newParticle(self):
         r = random.uniform(*self.rrange)
         D = random.uniform(*self.Drange)
         x = random.uniform(*self.xrange)
