@@ -50,20 +50,15 @@ class System():
             
     #run the main loop for the simulation.
     def run(self):
-        
-        while True:
     
-            for event in pygame.event.get():
-        
-                if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-          
-            self.window.surface.fill((255, 255, 255))
-            drawGrid(100, self.window)
+        while True:
+
+            if(view.receivedQuit()):
+                view.closeView()
+                break;
+    
             self.update()
-            self.draw()
-            pygame.display.update()
+            view.update(self)
 
 
     #Detect collisions between particles, apply forces to particles, and call their update function.
