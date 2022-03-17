@@ -1,12 +1,6 @@
 from Particle import *
 
 import random, math
-
-
-def drawGrid(size, window):
-    x = window.x
-    y = window.y
-    size *= window.zoom
        
 def g(particle1, G, system):
     result = Vec(0, 0)
@@ -90,9 +84,6 @@ class System():
                         particle1.collide(particle2)
                         pairs.append((particle1, particle2))
 
-    def draw(self):
-        for particle in self.particles:
-            particle.draw()
 
     #Generate a new particle using the system's ranges
     def newParticle(self):
