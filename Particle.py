@@ -68,8 +68,3 @@ class Particle():
         self.boundaries()
         self.a = Vec(0, 0)
 
-    def draw(self):
-        pygame.draw.circle(self.window.surface, self.color,
-                        (round(self.d.x * self.window.zoom - self.window.x),
-                        round(self.d.y * self.window.zoom - self.window.y)),
-                        round(self.r * self.window.zoom))
