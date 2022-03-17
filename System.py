@@ -53,6 +53,24 @@ class System():
             self.forces.append(lambda p: electric(p, C, self))
         for i in range(n):
             self.newParticle()
+            
+    #run the main loop for the simulation.
+    def run(self):
+        
+        while True:
+    
+            for event in pygame.event.get():
+        
+                if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+          
+            self.window.surface.fill((255, 255, 255))
+            drawGrid(100, self.window)
+            self.update()
+            self.draw()
+            pygame.display.update()
+
 
     #Detect collisions between particles, apply forces to particles, and call their update function.
     def update(self):
