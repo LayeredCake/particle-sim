@@ -25,7 +25,7 @@ class System():
             self.newParticle()
            
     #Compute the net gravitational force on a given particle.
-    def g(self, particle1, G):
+    def gravity(self, particle1, G):
         result = Vec(0, 0)
         for particle2 in system.particles:
             if particle1 is not particle2:
