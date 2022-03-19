@@ -11,8 +11,7 @@ import math
 #the space, being acted on by forces, and collide with each other.
 class Particle():
 
-    def __init__(self, window, x, y, vx=0, vy=0, r=10, D=1, color=(0, 0, 0), q=0):
-        self.window = window
+    def __init__(self, x, y, vx=0, vy=0, r=10, D=1, color=(0, 0, 0), q=0):
         self.color = color
         self.r = r
         self.q = q
@@ -26,20 +25,16 @@ class Particle():
     def applyForce(self, f):
         self.a += f * (1 / self.m)
         
-    #Adjust the position and velocity of the particle to keep it within the window's boundaries. 
-    def boundaries(self):
-        if self.d.x > self.window.w:
-            self.d.x = self.window.w
+    #Adjust the position and velocity of the particle to bounce away from a boundary. 
+    def bounce(self, axis, limitPos):
+        if(axis == 0):
             self.v.x *= -1
-        elif self.d.x < 0:
-            self.d.x = 0
-            self.v.x *= -1
-        if self.d.y > self.window.h:
-            self.d.y = self.window.h
+            self.d.x = limitPos
+        elif(axis == 1):
             self.v.y *= -1
-        elif self.d.y < 0:
-            self.d.y = 0
-            self.v.y *= -1
+            self.d.y = limitPos
+        else:
+            raise ValueError("Invalid axis value. Should be 0 for x, or 1 for y.");
 
     #Returns the distance between this particle and the particle other.
     def distance(self, other):
@@ -55,16 +50,12 @@ class Particle():
               * math.cos(bAngle)) / (self.m / other.m + 1)
         kb = ka * (self.m / other.m)
         self.v += u * ka
-        other.v += u * -kb
-        while self.distance(other) <= self.r + other.r:
-            self.d = self.d + self.v
-            other.d = other.d + other.v
+        self.d = self.d + u * ((displacement.length() - self.r - other.r) / 2 - 0.00000001)
      
     #Update the particle by adding its acceleration to its velocity, moving its position by its velocity, keeping it within the window's
     #boundaries, and setting its acceleration to zero.
     def update(self):
         self.v += self.a
         self.d = self.d + self.v
-        self.boundaries()
         self.a = Vec(0, 0)
 
