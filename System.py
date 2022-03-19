@@ -24,6 +24,7 @@ class System():
         for i in range(n):
             self.newParticle()
            
+    #Compute the net gravitational force on a given particle.
     def g(self, particle1, G):
         result = Vec(0, 0)
         for particle2 in system.particles:
@@ -31,24 +32,19 @@ class System():
                 displacement =  particle2.d.displacement(particle1.d) * -1
                 if displacement.length() != 0:
                     result += (displacement.unit()) * (G * particle2.m / ((displacement.length())**2))
-        return result
+        return result * particle1.m
 
-    def gravity(self, particle, G):
-        return self.g(particle, G, system) * particle.m
-
-    def E(self, particle1, K):
+    #Compute the net electric force on a given particle.
+    def electric(self, particle1, K):
         result = Vec(0, 0)
         for particle2 in system.particles:
             if particle1 is not particle2:
                 displacement = particle1.d.displacement(particle2.d)
                 if displacement.length() != 0:
                     result += (displacement.unit()) * (K * particle2.q / ((displacement.length())**2))
-        return result
+        return result * particle1.q
 
-    def electric(self, particle, K):
-        return self.E(particle, K, system) * particle.q
-
-    #run the main loop for the simulation.
+    #Run the main loop for the simulation.
     def run(self):
     
         while True:
