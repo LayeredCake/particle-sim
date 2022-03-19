@@ -2,30 +2,6 @@ from Particle import *
 
 import random, math
        
-def g(particle1, G, system):
-    result = Vec(0, 0)
-    for particle2 in system.particles:
-        if particle1 is not particle2:
-            displacement =  particle2.d.displacement(particle1.d) * -1
-            if displacement.length() != 0:
-                result += (displacement.unit()) * (G * particle2.m / ((displacement.length())**2))
-    return result
-
-def gravity(particle, G, system):
-    return g(particle, G, system) * particle.m
-
-def E(particle1, K, system):
-    result = Vec(0, 0)
-    for particle2 in system.particles:
-        if particle1 is not particle2:
-            displacement = particle1.d.displacement(particle2.d)
-            if displacement.length() != 0:
-                result += (displacement.unit()) * (K * particle2.q / ((displacement.length())**2))
-    return result
-
-def electric(particle, K, system):
-    return E(particle, K, system) * particle.q
-
 #A system of particles, which controls the generation, and mechanics of particles
 class System():
 
@@ -42,12 +18,36 @@ class System():
         self.particles = []
         self.forces = []
         if Gravity:
-            self.forces.append(lambda p: gravity(p, G, self))
+            self.forces.append(lambda p: self.gravity(p, G))
         if Electric:
-            self.forces.append(lambda p: electric(p, C, self))
+            self.forces.append(lambda p: self.electric(p, C))
         for i in range(n):
             self.newParticle()
-            
+           
+    def g(self, particle1, G):
+        result = Vec(0, 0)
+        for particle2 in system.particles:
+            if particle1 is not particle2:
+                displacement =  particle2.d.displacement(particle1.d) * -1
+                if displacement.length() != 0:
+                    result += (displacement.unit()) * (G * particle2.m / ((displacement.length())**2))
+        return result
+
+    def gravity(self, particle, G):
+        return self.g(particle, G, system) * particle.m
+
+    def E(self, particle1, K):
+        result = Vec(0, 0)
+        for particle2 in system.particles:
+            if particle1 is not particle2:
+                displacement = particle1.d.displacement(particle2.d)
+                if displacement.length() != 0:
+                    result += (displacement.unit()) * (K * particle2.q / ((displacement.length())**2))
+        return result
+
+    def electric(self, particle, K):
+        return self.E(particle, K, system) * particle.q
+
     #run the main loop for the simulation.
     def run(self):
     
