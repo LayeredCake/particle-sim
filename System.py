@@ -5,10 +5,12 @@ import random, math
 #A system of particles, which controls the generation, and mechanics of particles
 class System():
 
-    def __init__(self, window, n, vrange=(0, 0.5),
+    def __init__(self, view, n, vrange=(0, 0.5),
                  rrange=(5, 10), Drange=(0.0001, 0.0001), qrange=(-50, 50), \
                  Gravity=True, G=2, Electric=True, C=5):
         self.window = window
+        self.w = window.w
+        self.h = window.h
         self.xrange = (0, window.w)
         self.yrange = (0, window.h)
         self.vrange = vrange
@@ -64,6 +66,18 @@ class System():
             for force in self.forces:
                 particle.applyForce(force(particle))
             particle.update()
+            self.checkBoundaries(particle)
+            
+            
+    def checkBoundaries(self, particle):
+        if particle.d.x <= 0:
+            particle.bounce(0, 0)
+        elif particle.d.x > w:
+            particle.bounce(0, w)
+        if particle.d.y <= 0:
+            particle.bounce(1, 0)
+        elif particle.d.y > h:
+            particle.bounce(1, h)
             
     #Find collisions between any particles in the system
     def findCollisions(self):
@@ -73,6 +87,7 @@ class System():
                 if particle1 is not particle2 and (particle1, particle2) not in pairs:
                     if particle1.distance(particle2) <= particle1.r + particle2.r:
                         particle1.collide(particle2)
+                        particle2.collide(particle1)
                         pairs.append((particle1, particle2))
 
 
