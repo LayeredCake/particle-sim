@@ -29,7 +29,7 @@ class System():
     #Compute the net gravitational force on a given particle.
     def gravity(self, particle1, G):
         result = Vec(0, 0)
-        for particle2 in system.particles:
+        for particle2 in self.particles:
             if particle1 is not particle2:
                 displacement =  particle2.d.displacement(particle1.d) * -1
                 if displacement.length() != 0:
@@ -39,7 +39,7 @@ class System():
     #Compute the net electric force on a given particle.
     def electric(self, particle1, K):
         result = Vec(0, 0)
-        for particle2 in system.particles:
+        for particle2 in self.particles:
             if particle1 is not particle2:
                 displacement = particle1.d.displacement(particle2.d)
                 if displacement.length() != 0:
@@ -51,12 +51,12 @@ class System():
     
         while True:
 
-            if(view.receivedQuit()):
-                view.closeView()
+            if(self.view.receivedQuit()):
+                self.view.closeView()
                 break;
     
             self.update()
-            view.update(self)
+            self.view.update(self)
 
 
     #Detect collisions between particles, apply forces to particles, and call their update function.
