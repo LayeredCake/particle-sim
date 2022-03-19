@@ -55,10 +55,7 @@ class Particle():
               * math.cos(bAngle)) / (self.m / other.m + 1)
         kb = ka * (self.m / other.m)
         self.v += u * ka
-        other.v += u * -kb
-        while self.distance(other) <= self.r + other.r:
-            self.d = self.d + self.v
-            other.d = other.d + other.v
+        self.d = self.d + u * ((displacement.length() - self.r - other.r) / 2 - 0.00000001)
      
     #Update the particle by adding its acceleration to its velocity, moving its position by its velocity, keeping it within the window's
     #boundaries, and setting its acceleration to zero.
