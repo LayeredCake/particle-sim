@@ -8,11 +8,11 @@ class System():
     def __init__(self, view, n, vrange=(0, 0.5),
                  rrange=(5, 10), Drange=(0.0001, 0.0001), qrange=(-50, 50), \
                  Gravity=True, G=2, Electric=True, C=5):
-        self.window = window
-        self.w = window.w
-        self.h = window.h
-        self.xrange = (0, window.w)
-        self.yrange = (0, window.h)
+        self.view = view
+        self.w = view.w
+        self.h = view.h
+        self.xrange = (0, view.w)
+        self.yrange = (0, view.h)
         self.vrange = vrange
         self.rrange = rrange
         self.Drange = Drange
@@ -72,12 +72,12 @@ class System():
     def checkBoundaries(self, particle):
         if particle.d.x <= 0:
             particle.bounce(0, 0)
-        elif particle.d.x > w:
-            particle.bounce(0, w)
+        elif particle.d.x > self.w:
+            particle.bounce(0, self.w)
         if particle.d.y <= 0:
             particle.bounce(1, 0)
-        elif particle.d.y > h:
-            particle.bounce(1, h)
+        elif particle.d.y > self.h:
+            particle.bounce(1, self.h)
             
     #Find collisions between any particles in the system
     def findCollisions(self):
@@ -104,4 +104,4 @@ class System():
         vx = v * math.cos(vDir)
         vy = v * math.sin(vDir)
         color = (random.uniform(0, 255), random.uniform(0, 255), random.uniform(0, 255))
-        self.particles.append(Particle(self.window, x, y, vx, vy, r, D, color, q))
+        self.particles.append(Particle(x, y, vx, vy, r, D, color, q))
